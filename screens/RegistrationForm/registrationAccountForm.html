@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Register Account</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
+	<style>
+		#passwordStrength {
+			display: none;
+			color: red;
+		}
+        #otpForm {
+            display: none;
+        }
+	</style>
+</head>
+<body>
+	<main>
+		<h1>Register</h1>
+		<form id="registerForm" aria-labelledby="registerFormTitle">
+			<div>
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name" aria-required="true" required>
+			</div>
+			<div>
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" aria-required="true" required>
+			</div>
+			<div>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password" aria-required="true" required>
+				<div id="passwordStrength">Password is too weak</div>
+			</div>
+			<div>
+				<label for="passwordConfirmation">Confirm Password:</label>
+				<input type="password" id="passwordConfirmation" name="passwordConfirmation" aria-required="true" required>
+			</div>
+			<div>
+				<input type="checkbox" id="terms" name="terms" aria-required="true" required>
+				<label for="terms">I agree to the terms and conditions</label>
+			</div>
+			<button type="submit">Register</button>
+		</form>
+        <form id="otpForm" aria-labelledby="otpFormTitle">
+            <div>
+                <label for="otp">Enter OTP:</label>
+                <input type="text" id="otp" name="otp" aria-required="true" required>
+            </div>
+            <button type="submit">Verify OTP</button>
+        </form>
+	</main>
+	<script>
+		function sanitizeInput(input) {
+			const element = document.createElement('div');
+			element.innerText = input;
+			return element.innerHTML;
+		}
+
+		function checkPasswordStrength(password) {
+			const strengthIndicator = document.getElementById('passwordStrength');
+			const strongPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{8,})");
+			if (strongPassword.test(password)) {
+				strengthIndicator.style.display = 'none';
+				return true;
+			} else {
+				strengthIndicator.style.display = 'block';
+				return false;
+			}
+		}
+
+		document.getElementById('password').addEventListener('input', (event) => {
+			checkPasswordStrength(event.target.value);
+		});
+
+		document.getElementById('registerForm').addEventListener('submit', async (event) => {
+			event.preventDefault();
+			const name = sanitizeInput(document.getElementById('name').value);
+			const email = sanitizeInput(document.getElementById('email').value);
+			const password = document.getElementById('password').value;
+			const passwordConfirmation = document.getElementById('passwordConfirmation').value;
+			const terms = document.getElementById('terms').checked;
+
+			if (!checkPasswordStrength(password)) {
+				alert('Please use a stronger password');
+				return;
+			}
+
+			if (password !== passwordConfirmation) {
+				alert('Passwords do not match');
+				return;
+			}
+
+			if (!terms) {
+				alert('You must agree to the terms and conditions');
+				return;
+			}
+
+            // Ensure the connection is HTTPS
+            if (location.protocol !== 'https:') {
+                alert('Connection is not secure. Please use HTTPS.');
+                return;
+}
+
+			const salt = bcrypt.genSaltSync(10);
+			const hashedPassword = bcrypt.hashSync(password, salt);
+
+			try {
+				const response = await fetch('/auth/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ name, email, password: hashedPassword })
+				});
+
+				if (response.ok) {
+					document.getElementById('registerForm').style.display = 'none';
+                    document.getElementById('otpForm').style.display = 'block';
+				} else {
+					alert('Registration failed');
+				}
+			} catch (error) {
+				console.error('Error registering:', error);
+				alert('An error occurred. Please try again.');
+			}
+		});
+        document.getElementById('otpForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const otp = sanitizeInput(document.getElementById('otp').value);
+
+            try {
+                const response = await fetch('/auth/verify-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ otp })
+                });
+
+                if (response.ok) {
+                    window.location.href = '/login';
+                } else {
+                    alert('OTP verification failed');
+                }
+            } catch (error) {
+                console.error('Error verifying OTP:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+	</script>
+</body>
+</html>
