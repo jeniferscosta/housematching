@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Switch } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Switch, ImageBackground } from 'react-native';
 import * as Location from 'expo-location';
+import commonStyles from 'utils/commonStyles';
 
 const LocationConfigScreen = ({ navigation }) => {
 	const [isLocationEnabled, setIsLocationEnabled] = useState(false);
@@ -33,6 +34,7 @@ const LocationConfigScreen = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
+			<ImageBackground source={require('../../assets/AccountSetup/LocationEmpty.png')} style={commonStyles.background} resizeMode="cover" onError={(error) => console.log(error)}></ImageBackground>
 			<Text style={styles.label}>Share Location</Text>
 			<Switch
 				onValueChange={handleToggleSwitch}
@@ -84,6 +86,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+	},
+	background: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 });
 
 export default LocationConfigScreen;

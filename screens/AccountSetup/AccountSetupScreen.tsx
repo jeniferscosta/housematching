@@ -1,3 +1,5 @@
+import { StyleSheet, View, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
+
 const AccountSetupScreen = ({ navigation, route }) => {
     const { email: initialEmail } = route.params;
     const [fullName, setFullName] = useState('');
