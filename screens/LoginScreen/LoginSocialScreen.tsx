@@ -13,7 +13,21 @@ const LoginSocialMedia = () => {
         const provider = new GoogleAuthProvider();
         try {
             const result = await firebase.auth().signInWithPopup(provider);
-            // User signed in
+            const user = result.user;
+
+            // Save user information to the database
+            const response = await fetch('http://localhost:3000/api/users/social-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ fullName: user.displayName, email: user.email }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to log in user');
+            }
+
             navigation.navigate("HomeScreen");
         } catch (error) {
             Alert.alert('Login Error', error.message);
@@ -24,7 +38,21 @@ const LoginSocialMedia = () => {
         const provider = new FacebookAuthProvider();
         try {
             const result = await firebase.auth().signInWithPopup(provider);
-            // User signed in
+            const user = result.user;
+
+            // Save user information to the database
+            const response = await fetch('http://localhost:3000/api/users/social-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ fullName: user.displayName, email: user.email }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to log in user');
+            }
+
             navigation.navigate("HomeScreen");
         } catch (error) {
             Alert.alert('Login Error', error.message);

@@ -19,10 +19,29 @@ const LoginDetailsMailPass = () => {
     };
 
     const handleLogin = async () => {
+        if (!email || !password) {
+            Alert.alert('Error', 'All fields are required.');
+            return;
+        }
+
         try {
             const auth = getAuth(firebase);
             await signInWithEmailAndPassword(auth, email, password);
-            navigation.navigate("HomeScreen");
+
+            // Save user information to the database
+            const response = await fetch('http://localhost:3000/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to log in user');
+            }
+
+            navigation.navigate("LocationConfigStep1");
         } catch (error) {
             setErrorMessage((error as any).message);
         }
@@ -35,7 +54,7 @@ const LoginDetailsMailPass = () => {
                 <TouchableOpacity style={commonStyles.skipButton} onPress={() => navigation.navigate("AccountSetupScreen")}>
                 </TouchableOpacity>
                 <TextInput
-                    style={styles.input}
+                    style={commonStyles.input}
                     placeholder="Email"
                     value={email}
                     onChangeText={setEmail}
@@ -43,7 +62,7 @@ const LoginDetailsMailPass = () => {
                     autoCapitalize="none"
                 />
                 <TextInput
-                    style={styles.input}
+                    style={commonStyles.input}
                     placeholder="Password"
                     value={password}
                     onChangeText={setPassword}
@@ -86,15 +105,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         marginTop: 20,
-    },
-    input: {
-        width: '100%',
-        padding: 8,
-        marginVertical: 8,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 4,
-        color: '#1F4C6B',
     },
     errorText: {
         color: 'red',

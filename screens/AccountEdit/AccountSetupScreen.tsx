@@ -25,7 +25,7 @@ const AccountSetupScreen = ({ navigation, route }) => {
         });
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         // Save the information to the database (pseudo-code)
         // saveToDatabase({ fullName, email, telephone, profilePicture });
         try {

@@ -4,11 +4,23 @@ export type RootStackParamList = {
     ProdTour2: undefined;
     ProdTour3: undefined;
     AccountSetupScreen: undefined;
-    LoginScreen: undefined;
     LoginSocialScreen: undefined;
     RegisterScreen: undefined;
-    loginDetailsMailPass: undefined;
+    loginSignIn: undefined;
+    LoginRegister: undefined;
+    OTPInputScreen: { verificationId: string };
     HomeScreen: undefined;
+    LocationConfigStep1: undefined;
+    AmenitiesConfigScreen:undefined;
+    PropertySelectionScreen: undefined;
+    UnderConstructionScreen: undefined;
+    SalesPropertiesScreen: undefined;
+    PropertyDetails: { propertyId: string };
+    Notifications: undefined;
+    AIAgent: undefined;
+    MessageChat: undefined;
+    UserInfoScreen: undefined;
+
     // Add other routes here as needed
 };
 

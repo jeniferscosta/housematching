@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   telephone: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
   profilePicture: { type: String, required: true },
   propertyTypes: { type: [String], default: [] },
   isVerified: { type: Boolean, default: false },
@@ -22,8 +24,6 @@ const User = mongoose.model('User', userSchema);
 
 module.exports = User;
 
-module.exports = mongoose.model('User', userSchema);
-
 // backend/models/Property.js
 const mongoose = require('mongoose');
 
@@ -37,14 +37,3 @@ const propertySchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Property', propertySchema);
-
-//to save user favorite properties
-const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Property' }]
-});
-
-module.exports = mongoose.model('User', userSchema);
