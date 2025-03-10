@@ -1,8 +1,11 @@
 {
-  "name": "HouseMatching",
-  "version": "0.0.1",
+  "name": "house-matching",
+  "version": "1.0.0",
+  "description": "House Matching Project",
+  "main": "backend/server.js",
   "private": true,
   "scripts": {
+    "start": "node backend/server.js",
     "web": "webpack serve --config webpack.config.js --mode development"
   },
   "dependencies": {
@@ -11,13 +14,20 @@
     "@react-navigation/stack": "^7.1.1",
     "@types/styled-components-react-native": "^5.2.5",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "expo": "^52.0.0",
     "expo-asset": "^11.0.3",
     "expo-image": "~2.0.5",
     "expo-location": "~18.0.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
     "firebase": "^11.4.0",
+    "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.14.2",
+    "mongoose": "^8.12.1",
     "react": "18.3.1",
     "react-dom": "^18.3.1",
     "react-native": "0.77.0",
@@ -29,7 +39,8 @@
     "react-native-screens": "^4.9.1",
     "react-native-web": "^0.19.13",
     "socket.io": "^4.8.1",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "validator": "^13.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",

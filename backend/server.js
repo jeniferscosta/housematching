@@ -1,38 +1,31 @@
 // backend/server.js
-const express = require('express');
+require('dotenv').config();
 const mongoose = require('mongoose');
+const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const { body, param, validationResult } = require('express-validator');
+const connectDB = require('./database');
+const User = require('./models/User');
+const Property = require('./models/Property');
+const Notification = require('./models/Notification');
+const Message = require('./models/Message');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const mongoUri = process.env.MONGO_URI; // 'mongodb://localhost:27017/dreamhouse';
-const dbHost = process.env.DB_HOST;
-const dbUser = process.env.DB_USER;
-const dbPass = process.env.DB_PASS;
 const port = process.env.PORT || 3000;
 const secretKey = process.env.SECRET_KEY;
 
 app.use(bodyParser.json());
-
-// CORS Middleware enablement - In case I decide to host the frontend on a different domain
 app.use(cors());
 
-// MongoDB Connection
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  user: dbUser,
-  pass: dbPass,
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Connect to MongoDB
+connectDB();
 
 // JWT Middleware
 app.use((req, res, next) => {
@@ -48,6 +41,17 @@ app.use((req, res, next) => {
     });
   } else {
     next();
+  }
+});
+
+// Test Route to Verify MongoDB Connection
+app.get('/api/test', async (req, res) => {
+  try {
+    const testCollection = mongoose.connection.db.collection('test');
+    const testDocument = await testCollection.findOne({});
+    res.status(200).json({ message: 'MongoDB connection is working', document: testDocument });
+  } catch (error) {
+    res.status(500).json({ message: 'MongoDB connection failed', error: error.message });
   }
 });
 
@@ -81,32 +85,68 @@ const propertySchema = new mongoose.Schema({
   },
 });
 
-// Define Models
-const Notification = mongoose.model('Notification', notificationSchema);
-const Message = mongoose.model('Message', messageSchema);
-const User = mongoose.model('User', userSchema);
-const Property = mongoose.model('Property', propertySchema);
-
-// Routes
+// Import Routes
 const authRoutes = require('./routes/auth');
 const selectionRoutes = require('./routes/selection');
 const amenitiesRoutes = require('./routes/amenities');
 const locationRoutes = require('./routes/location');
-const userRoutes = require('./routes/users');
+const userRoutes = require('./routes/user');
+const favoritesRoutes = require('./routes/favorites');
+const notificationRoutes = require('./routes/notifications');
+const messageRoutes = require('./routes/messages');
+
+// Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/selection', selectionRoutes);
 app.use('/api/amenities', amenitiesRoutes);
 app.use('/api/location', locationRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api', favoritesRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/messages', messageRoutes);
+
+// AI Recommendations Route
+app.post('/api/ai/recommendations', [
+  body('query').isString().trim().escape()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { query } = req.body;
+  try {
+// Implement your AI logic here to process the query and fetch property recommendations
+    // For simplicity, let's assume we fetch all properties that match the query in their title or description
+    const recommendations = await Property.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } },
+      ],
+    });
+    res.send(recommendations);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
 
 // Notification and Message Routes
-app.post('/api/notifications', async (req, res) => {
+app.post('/api/notifications', [
+  body('profilePicture').isString().trim().escape(),
+  body('userName').isString().trim().escape(),
+  body('message').isString().trim().escape()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const notification = new Notification(req.body);
   try {
     await notification.save();
     res.status(201).send(notification);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -115,11 +155,18 @@ app.get('/api/notifications', async (req, res) => {
     const notifications = await Notification.find();
     res.send(notifications);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
-app.delete('/api/notifications/:id', async (req, res) => {
+app.delete('/api/notifications/:id', [
+  param('id').isMongoId()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
     const notification = await Notification.findByIdAndDelete(req.params.id);
     if (!notification) {
@@ -127,17 +174,25 @@ app.delete('/api/notifications/:id', async (req, res) => {
     }
     res.send({ message: 'Notification deleted' });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
-app.post('/api/messages', async (req, res) => {
+app.post('/api/messages', [
+  body('userId').isMongoId(),
+  body('message').isString().trim().escape()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const message = new Message(req.body);
   try {
     await message.save();
     res.status(201).send(message);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -146,7 +201,7 @@ app.get('/api/messages/:userId', async (req, res) => {
     const messages = await Message.find({ userId: req.params.userId });
     res.send(messages);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -158,7 +213,7 @@ app.delete('/api/messages/:id', async (req, res) => {
     }
     res.send({ message: 'Message deleted' });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -170,7 +225,7 @@ app.get('/api/users/:userId/status', async (req, res) => {
     }
     res.send({ status: user.status });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -181,7 +236,7 @@ app.post('/api/properties', async (req, res) => {
     await property.save();
     res.status(201).send(property);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -190,7 +245,7 @@ app.get('/api/properties', async (req, res) => {
     const properties = await Property.find();
     res.send(properties);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -202,7 +257,7 @@ app.get('/api/properties/:id', async (req, res) => {
     }
     res.send(property);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -214,7 +269,7 @@ app.put('/api/properties/:id', async (req, res) => {
     }
     res.send(property);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
@@ -226,25 +281,7 @@ app.delete('/api/properties/:id', async (req, res) => {
     }
     res.send({ message: 'Property deleted' });
   } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// AI Recommendations Route
-app.post('/api/ai/recommendations', async (req, res) => {
-  const { query } = req.body;
-  try {
-    // Implement your AI logic here to process the query and fetch property recommendations
-    // For simplicity, let's assume we fetch all properties that match the query in their title or description
-    const recommendations = await Property.find({
-      $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { description: { $regex: query, $options: 'i' } },
-      ],
-    });
-    res.send(recommendations);
-  } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error: error.message });
   }
 });
 
