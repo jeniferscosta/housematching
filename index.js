@@ -3,6 +3,8 @@
  */
 
 require('dotenv').config();
+console.log('Environment variables loaded from .env file');
+
 import {AppRegistry} from 'react-native';
 import App from './App';
 import appName from './app.json';

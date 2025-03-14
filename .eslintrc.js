@@ -1,4 +1,9 @@
 module.exports = {
+  extends: '@react-native/eslint-config',
   root: true,
-  extends: '@react-native',
+  "settings": {
+    "react": {
+      "version": "18.2.0"
+    }
+  }
 };

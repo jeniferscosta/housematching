@@ -1,19 +1,19 @@
 {
-  // "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "es2015"],
-    "jsx": "react",
-    "module": "Node16",
-    "moduleResolution": "node16",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "lib": ["dom", "es2017"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "jsx": "react-native",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node"]
   },
   "include": ["screens/**/*"]
 }

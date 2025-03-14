@@ -1,5 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const express = require('express');
+
+const app = express();
 
 const connectDB = async () => {
     try {
@@ -10,8 +13,18 @@ const connectDB = async () => {
         if (error.name === 'MongooseServerSelectionError') {
             console.error('Ensure your IP address is whitelisted in your MongoDB Atlas cluster.');
         }
-        process.exit(1);
     }
 };
+
+// Basic route handler
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 module.exports = connectDB;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import MapView, { Marker } from 'react-native-maps';
 import OnboardScreen from './screens/Onboarding/OnboardScreen';
 import ProdTour1 from './screens/ProductTour/ProdTour1';
 import ProdTour2 from './screens/ProductTour/ProdTour2';
@@ -11,8 +12,9 @@ import LoginSignIn from './screens/LoginScreen/loginSignIn';
 import LoginRegister from './screens/LoginScreen/LoginRegister';
 import OTPInputScreen from './screens/LoginScreen/OTPInputScreen';
 import HomeScreen from './screens/HomeScreen/HomeScreen';
-import AccountSetupScreen from './screens/AccountSetup/AccountSetupScreen';
-import LocationConfigScreen from './screens/Location/LocationConfigScreen';
+import AccountSetupScreen from './screens/AccountEdit/AccountSetupScreen';
+import UserInfoScreen from './screens/AccountEdit/UserInfoScreen'; 
+import LocationConfigScreen from './screens/Location/LocationConfigStep1';
 import PropertySelectionScreen from './screens/PropertyAmenitiesScreen/PropertySelectionScreen';
 import AmenitiesConfigScreen from './screens/PropertyAmenitiesScreen/AmenitiesConfigScreen';
 
@@ -37,6 +39,21 @@ const App = () => {
         <Stack.Screen name="AmenitiesConfigScreen" component={AmenitiesConfigScreen} />
         {/* Add other screens here */}
       </Stack.Navigator>
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        <Marker
+          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
+          title={"Marker Title"}
+          description={"Marker Description"}
+        />
+      </MapView>
     </NavigationContainer>
   );
 };

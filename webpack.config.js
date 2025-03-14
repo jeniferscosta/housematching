@@ -2,48 +2,36 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './index.web.js',
+  entry: './src/index.js',
   output: {
-	path: path.resolve(__dirname, 'dist'),
-	filename: 'bundle.js',
-  },
-  resolve: {
-	alias: {
-	  'react-native$': 'react-native-web',
-	},
-	extensions: ['.web.js', '.js', '.jsx', '.ts', '.tsx'],
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
-	rules: [
-	  {
-		test: /\.(js|jsx|ts|tsx)$/,
-		exclude: /node_modules/,
-		use: {
-		  loader: 'babel-loader',
-		},
-	  },
-	  {
-		test: /\.(png|jpe?g|gif|svg)$/,
-		use: {
-		  loader: 'file-loader',
-		  options: {
-			name: '[name].[ext]',
-			outputPath: 'assets/',
-		  },
-		},
-	  },
-	],
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      // Add other loaders here
+    ],
   },
   plugins: [
-	new HtmlWebpackPlugin({
-	  template: 'index.html',
-	}),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+    }),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   devServer: {
-    static: {
-        directory: path.join(__dirname, 'dist'),
-      },
-      compress: true,
-      port: 9000,
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000,
   },
 };
