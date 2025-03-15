@@ -1,22 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
+    "module": "ESNext",
     "lib": ["dom", "es2017"],
-    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "jsx": "react-native",
+    "noEmit": false,
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": [
-    "screens/**/*",
+    "src/**/*", // ✅ Ensures TypeScript compiles everything in "src/"
     "jest.d.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "dist"]
 }
