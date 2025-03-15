@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MapView, { Marker } from 'react-native-maps';
@@ -21,6 +21,8 @@ import AmenitiesConfigScreen from './screens/PropertyAmenitiesScreen/AmenitiesCo
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="OnboardScreen">
@@ -54,6 +56,10 @@ const App = () => {
           description={"Marker Description"}
         />
       </MapView>
+      <Button
+        title="Show Modal"
+        onPress={() => setModalVisible(true)}
+      />
     </NavigationContainer>
   );
 };

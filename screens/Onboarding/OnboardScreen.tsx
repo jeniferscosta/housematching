@@ -4,7 +4,7 @@ import { useNavigation, NavigationContainerRef } from '@react-navigation/native'
 import { RootStackParamList } from '../../types';
 
 const OnboardScreen: React.FC = () => {
-    const navigation = useNavigation<NavigationContainerRef<RootStackParamList>>();
+    const navigation = useNavigation();
     return (
         <ImageBackground source={require('../../assets/Onboarding/background.png')} style={styles.background} resizeMode="cover">
             <View style={styles.container}>
@@ -34,15 +34,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: '20%', // Use percentage for better responsiveness
+        paddingVertical: '20%', 
     },
     logo: {
         width: 190,
         height: 200,
-        marginTop: '10%', // Use percentage for better responsiveness
+        marginTop: '10%', 
     },
     button: {
-        marginVertical: '20%', // Use percentage for better responsiveness
+        marginVertical: '20%', 
     },
     buttonImage: {
         width: 170,

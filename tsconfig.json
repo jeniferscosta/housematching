@@ -13,7 +13,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["node"]
+    "types": ["jest", "node"]
   },
-  "include": ["screens/**/*"]
+  "include": [
+    "screens/**/*",
+    "jest.d.ts"
+  ]
 }

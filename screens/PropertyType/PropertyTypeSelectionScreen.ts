@@ -10,16 +10,29 @@ const propertyTypes = [
 	{ type: 'Studio', image: require('./assets/studio.png') },
 ];
 
-const PropertyTypeSelectionScreen = ({ navigation, route }) => {
+// Define Property Type
+interface PropertyType {
+	type: string;
+	image: any; // Change 'any' to ImageSourcePropType if using TypeScript properly
+}
+
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+
+type Props = {
+	navigation: NavigationProp<any>;
+	route: RouteProp<{ params: { email: string } }, 'params'>;
+};
+
+const PropertyTypeSelectionScreen = ({ navigation, route }: Props) => {
 	const { email } = route.params;
-	const [selectedTypes, setSelectedTypes] = useState([]);
+	const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 	const [isNextEnabled, setIsNextEnabled] = useState(false);
 
 	useEffect(() => {
 		setIsNextEnabled(selectedTypes.length > 0);
 	}, [selectedTypes]);
 
-	const toggleSelection = (type) => {
+	const toggleSelection = (type: string) => {
 		setSelectedTypes((prevSelectedTypes) =>
 			prevSelectedTypes.includes(type)
 				? prevSelectedTypes.filter((t) => t !== type)
@@ -55,30 +68,39 @@ const PropertyTypeSelectionScreen = ({ navigation, route }) => {
 	};
 
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
+		<View style={styles.wrapper}>
+		  <ScrollView contentContainerStyle={styles.container}>
 			<Text style={styles.title}>Select Property Types</Text>
-			{propertyTypes.map((property) => (
+			{propertyTypes.map((property) => {
+			  return (
 				<TouchableOpacity
-					key={property.type}
-					style={[
-						styles.propertyContainer,
-						selectedTypes.includes(property.type) && styles.selected,
-					]}
-					onPress={() => toggleSelection(property.type)}
+				  key={property.type}
+				  style={[
+					styles.propertyContainer,
+					selectedTypes.includes(property.type) && styles.selected,
+				  ]}
+				  onPress={() => toggleSelection(property.type)}
 				>
-					<Image source={property.image} style={styles.propertyImage} />
-					<Text style={styles.propertyText}>{property.type}</Text>
+				  <Image source={property.image} style={styles.propertyImage} />
+				  <Text style={styles.propertyText}>{property.type}</Text>
 				</TouchableOpacity>
-			))}
-			<View style={styles.buttonContainer}>
-				<Button title="Skip" onPress={handleSkip} />
-				<Button title="Next" onPress={handleNext} disabled={!isNextEnabled} />
-			</View>
-		</ScrollView>
-	);
+			  );
+			})}
+		  </ScrollView>
+	
+		  {/* Fixed buttons at the bottom */}
+		  <View style={styles.buttonContainer}>
+			<Button title="Skip" onPress={handleSkip} />
+			<Button title="Next" onPress={handleNext} disabled={!isNextEnabled} />
+		  </View>
+		</View>
+	  );  
 };
 
 const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1, // Allows ScrollView and ButtonContainer to fit properly
+	},
 	container: {
 		flexGrow: 1,
 		padding: 16,
@@ -96,6 +118,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#ccc',
 		borderRadius: 4,
+		width: '100%', // Ensure it takes full width
 	},
 	selected: {
 		backgroundColor: '#d3d3d3',
@@ -111,8 +134,11 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		padding: 16,
+		backgroundColor: '#fff',
+		borderTopWidth: 1,
+		borderColor: '#ccc',
 		width: '100%',
-		marginTop: 20,
 	},
 });
 

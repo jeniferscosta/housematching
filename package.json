@@ -15,22 +15,28 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@react-navigation/native": "^6.0.6",
-    "@react-navigation/stack": "^6.3.11",
+    "@react-navigation/compat": "^5.3.20",
+    "@react-navigation/core": "^6.4.17",
+    "@react-navigation/elements": "^2.2.6",
+    "@react-navigation/native": "^5.9.8",
+    "@react-navigation/stack": "^5.14.9",
     "dotenv": "^16.0.0",
     "expo": "^52.0.38",
     "express": "^4.18.2",
     "firebase": "^11.4.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-native": "^0.71.19",
+    "mongoose": "^8.12.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native": "^0.78.0",
     "react-native-maps": "^0.31.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1"
   },
   "devDependencies": {
+    "@jest/globals": "^29.0.0",
     "@react-native/eslint-config": "^0.78.0",
     "@react-native/metro-config": "^0.73.0",
+    "@testing-library/react-native": "^12.9.0",
     "@types/node": "^18.19.80",
     "@types/react-native": "^0.71.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
@@ -38,6 +44,8 @@
     "eslint": "^8.0.0",
     "eslint-plugin-react": "^7.32.0",
     "eslint-plugin-react-native": "^4.0.0",
-    "html-webpack-plugin": "^5.5.0"
-  }
+    "html-webpack-plugin": "^5.5.0",
+    "react-test-renderer": "18.2.0"
+  },
+  "type": "module"
 }
