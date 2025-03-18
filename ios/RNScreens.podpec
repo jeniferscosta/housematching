@@ -1,0 +1,15 @@
+Pod::Spec.new do |s|
+  s.name         = "RNScreens"
+  s.version      = "3.10.1"
+  s.summary      = "React Native Screens"
+  s.description  = <<-DESC
+                   React Native Screens
+                   DESC
+  s.homepage     = "https://github.com/software-mansion/react-native-screens"
+  s.license      = { :type => "MIT" }
+  s.author       = { "Software Mansion" => "info@swmansion.com" }
+  s.source       = { :git => "https://github.com/software-mansion/react-native-screens.git", :tag => "#{s.version}" }
+  s.platform     = :ios, "10.0"
+  s.source_files = "ios/**/*.{h,m,swift}"
+  s.dependency "React"
+end

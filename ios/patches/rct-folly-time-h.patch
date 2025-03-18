@@ -1,0 +1,13 @@
+// filepath: /Users/I868139/Library/CloudStorage/OneDrive-SAPSE/03. Personal/PUCRS - Pos graduação/HouseMatching/patches/rct-folly-time-h.patch
+--- a/ios/Pods/RCT-Folly/folly/portability/Time.h
++++ b/ios/Pods/RCT-Folly/folly/portability/Time.h
+@@ -49,7 +49,9 @@
+ #include <time.h>
+ #endif
+
++#ifndef _WIN32
+ typedef uint8_t clockid_t;
++#endif
+
+ #if FOLLY_HAVE_CLOCK_GETTIME
+ #define FOLLY_CLOCK_GETTIME 1
