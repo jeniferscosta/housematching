@@ -4,9 +4,9 @@
 import dotenv from 'dotenv';
 import { AppRegistry } from 'react-native';
 import React from 'react';
-import App from './src/App.js'; // Import the compiled JavaScript file
+import App from './src/index.mjs'; // Import the compiled JavaScript file
 import { connectDB } from './src/config/db.js'; // Import the compiled JavaScript file
-import appConfig from './app.json' assert { type: "json" }; // Needed for JSON imports in ESM
+import appConfig from './app.json' assert { type: "json" };
 
 // Load environment variables
 dotenv.config();
@@ -32,3 +32,7 @@ console.log(`Database User: ${dbUser}`);
 console.log(`Database Password: ${dbPass}`);
 console.log(`Server Port: ${port}`);
 console.log(`Secret Key: ${secretKey}`);
+
+export { default as OnboardScreen } from './screens/Onboarding/OnboardScreen.js';
+export { default as LoginScreen } from './screens/LoginScreen/LoginRegister.js';
+// ...export other modules as needed...

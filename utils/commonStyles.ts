@@ -62,6 +62,54 @@ const commonStyles = StyleSheet.create({
         fontSize: 16,
         marginTop: 20,
     },
+    label: {
+        color: '#1F4C6B',
+        fontSize: 16,
+        marginTop: 20,
+    },
+    input: {
+        width: '100%',
+        height: 40,
+        borderColor: '#1F4C6B'
+    },
+    termsConditions: {
+        color: '#1F4C6B',
+        fontSize: 16,
+        marginTop: 20,
+    },
+    backButton: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        width: 86,
+        height: 38,
+        backgroundColor: '#DFDFDF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+    backButtonText: {
+        color: '#000',
+        fontSize: 16,
+    },
+    title: {
+        color: '#1F4C6B',
+        fontSize: 24,
+        marginTop: 20,
+    },
+    subtitle: {
+        color: '#1F4C6B',
+        fontSize: 16,
+        marginTop: 20,
+    },
+    skipButtonImage: { 
+        width: 86, 
+        height: 38 
+    },
+    backButtonImage: {
+        width: 86,
+        height: 38,
+    },
 });
 
 export default commonStyles;

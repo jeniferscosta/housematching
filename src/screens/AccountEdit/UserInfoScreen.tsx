@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import commonStyles from '../../utils/commonStyles';
+import commonStyles from '../../../utils/commonStyles';
 
 const UserInfoScreen = ({ navigation, route }: { navigation: NavigationProp<any>, route: any }) => {
     const { email } = route.params;
@@ -18,7 +18,7 @@ const UserInfoScreen = ({ navigation, route }: { navigation: NavigationProp<any>
         });
 
         if (!result.canceled) {
-            setProfilePicture(result.uri);
+            setProfilePicture(result.assets[0].uri);
         }
     };
 
@@ -40,7 +40,11 @@ const UserInfoScreen = ({ navigation, route }: { navigation: NavigationProp<any>
             // Navigate to the home page
             navigation.navigate('HomeScreen');
         } catch (error) {
-            Alert.alert('Error', error.message);
+            if (error instanceof Error) {
+                Alert.alert('Error', error.message);
+            } else {
+                Alert.alert('Error', 'An unknown error occurred');
+            }
         }
     };
 

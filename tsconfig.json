@@ -21,11 +21,13 @@
       "node"
     ],
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "." // Ensure this line includes the root directory
   },
   "include": [
     "src/**/*",
-    "jest.d.ts"
+    "jest.d.ts",
+    "types.tsx", // Ensure this line includes the types.tsx file
+    "jsx.d.ts" // Ensure this line includes the jsx.d.ts file
   ],
   "exclude": [
     "node_modules",

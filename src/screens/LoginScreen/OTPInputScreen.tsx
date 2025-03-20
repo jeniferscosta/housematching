@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { getAuth, signInWithPhoneNumber, signInWithCredential, PhoneAuthProvider } from 'firebase/auth';
-import firebase from '../../firebaseConfig';
-import commonStyles from '../../utils/commonStyles';
+import firebase from '../../../firebaseConfig';
+import commonStyles from '../../../utils/commonStyles';
 
 const OTPInputScreen = ({ navigation, route }: { navigation: NavigationProp<any>, route: any }) => {
     const [otp, setOtp] = useState(['', '', '', '']);

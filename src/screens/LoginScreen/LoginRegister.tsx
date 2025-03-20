@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
-import firebase from '../../firebaseConfig';
-import commonStyles from '../../utils/commonStyles';
+import firebase from '../../../firebaseConfig';
+import commonStyles from '../../../utils/commonStyles';
 
 const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
     const [fullName, setFullName] = useState('');

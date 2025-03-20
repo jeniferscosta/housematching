@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../types';
-import commonStyles from '../../utils/commonStyles';
+import { RootStackParamList } from '../../../types';
+import commonStyles from '../../../utils/commonStyles';
 
 const ProductTour1 = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     return (
         <View style={commonStyles.container}>
-            <ImageBackground source={require('../../assets/ProductTour/ProdTour2.png')} style={commonStyles.background} resizeMode="cover" onError={(error) => console.log(error)}>
+            <ImageBackground source={require('../../assets/ProductTour/ProdTour2.png')} style={commonStyles.background} >
                 <TouchableOpacity style={commonStyles.skipButton} onPress={() => navigation.navigate("AccountSetupScreen")}>
                     <Text style={commonStyles.skipButtonText}>Skip</Text>
                 </TouchableOpacity>

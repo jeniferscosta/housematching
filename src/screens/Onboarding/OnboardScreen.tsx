@@ -1,20 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native';
-import { useNavigation, NavigationContainerRef } from '@react-navigation/native';
-import { RootStackParamList } from '../../types';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../types'; 
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const OnboardScreen: React.FC = () => {
-    const navigation = useNavigation();
+type OnboardingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'OnboardScreen'>;
+
+const OnboardScreen = () => {
+    const navigation = useNavigation<OnboardingScreenNavigationProp>();
+
+    const handleError = (error: Error): void => {
+        console.error('An error occurred:', error.message);
+    };
+
     return (
-        <ImageBackground source={require('../../assets/Onboarding/background.png')} style={styles.background} resizeMode="cover">
+        <ImageBackground source={require('../../assets/images/background.jpg')} style={styles.background}>
             <View style={styles.container}>
-                <Image source={require('../../assets/Onboarding/logo.png')} style={styles.logo} />
-                <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={() => navigation.navigate("ProdTour1")}
-                    accessibilityLabel="Start Product Tour"
-                >
-                    <Image source={require('../../assets/Onboarding/button.png')} style={styles.buttonImage} />
+                <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProdTour1')}>
+                    <Image source={require('../../assets/images/button.png')} style={styles.buttonImage} />
                 </TouchableOpacity>
                 <Text style={styles.version}>Version 1.0.0</Text>
             </View>

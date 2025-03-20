@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ImageBackground, Image, TextInput, Alert, View } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../types';
-import commonStyles from '../../utils/commonStyles';
+import { RootStackParamList } from '../../../types'; 
+import commonStyles from '../../../utils/commonStyles';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import firebase from '../../firebaseConfig';
+import firebase from '../../../firebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginDetailsMailPass = () => {

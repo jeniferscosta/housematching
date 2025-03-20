@@ -1,3 +1,11 @@
 {
-  "name": "HouseMatching"
+  "name": "HouseMatching",
+  "expo": {
+    "packagerOpts": {
+      "urlType": "exp",
+      "hostType": "localhost",
+      "dev": true,
+      "minify": false
+    }
+  }
 }

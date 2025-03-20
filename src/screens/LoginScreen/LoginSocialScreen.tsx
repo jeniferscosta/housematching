@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ImageBackground, Image, Alert } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../types';
-import commonStyles from '../../utils/commonStyles';
-import firebase from '../../firebaseConfig';
+import { RootStackParamList } from '../../../types'; 
+import commonStyles from '../../../utils/commonStyles';
+import firebase from '../../../firebaseConfig';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 const LoginSocialMedia = () => {
@@ -28,7 +28,7 @@ const LoginSocialMedia = () => {
                 throw new Error('Failed to log in user');
             }
 
-            navigation.navigate("HomeScreen");
+            navigation.navigate("AccountSetupScreen");
         } catch (error) {
             Alert.alert('Login Error', error.message);
         }
@@ -53,7 +53,7 @@ const LoginSocialMedia = () => {
                 throw new Error('Failed to log in user');
             }
 
-            navigation.navigate("HomeScreen");
+            navigation.navigate("loginSignIn");
         } catch (error) {
             Alert.alert('Login Error', error.message);
         }

@@ -1,8 +1,30 @@
-import { StyleSheet, View, Text, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, ImageBackground, Image, ScrollView, TextInput, Button, Modal } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../../types';
 
-const AccountSetupScreen = ({ navigation, route }) => {
-    const { email: initialEmail } = route.params;
-    const [fullName, setFullName] = useState('');
+type AccountSetupScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountSetup'>;
+type AccountSetupScreenRouteProp = RouteProp<RootStackParamList, 'AccountSetup'> & {
+    params: {
+        email: string;
+        fullName?: string;
+    };
+};
+
+type AccountSetupScreenProps = {
+    navigation: AccountSetupScreenNavigationProp;
+    route: AccountSetupScreenRouteProp & {
+        params: {
+            email: string;
+            fullName?: string;
+        };
+    };
+};
+
+const AccountSetupScreen = ({ navigation, route }: AccountSetupScreenProps) => {
+    const { email: initialEmail } = route.params || {};
+    const [fullName, setFullName] = useState(route.params?.fullName || '');
     const [email, setEmail] = useState(initialEmail || '');
     const [telephone, setTelephone] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
