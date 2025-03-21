@@ -110,6 +110,25 @@ const commonStyles = StyleSheet.create({
         width: 86,
         height: 38,
     },
+    header: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 16,
+    },
+    finish: {
+        width: 86,
+        height: 38,
+    },
+    resendCode: {
+        color: '#1E90FF',
+        marginTop: 20,
+        textDecorationLine: 'underline',
+    },
+    disabled: {
+        color: '#ccc',
+    },
 });
 
 export default commonStyles;

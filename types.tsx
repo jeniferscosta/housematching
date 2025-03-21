@@ -3,7 +3,7 @@ export type RootStackParamList = {
     ProdTour1: undefined;
     ProdTour2: undefined;
     ProdTour3: undefined;
-    AccountSetupScreen: undefined;
+    AccountSetup: undefined;
     LoginSocialScreen: undefined;
     RegisterScreen: undefined;
     loginSignIn: undefined;
@@ -19,6 +19,13 @@ export type RootStackParamList = {
     AIAgent: undefined;
     MessageChat: undefined;
     UserInfoScreen: undefined;
+    AccountSetupScreen: undefined;
+    LoginSocialMedia: undefined;
+    LoginSingIn: undefined;
+    LocationConfigScreen: undefined;
+    loginRegister: undefined;
+    HomeScreen: undefined;
+    AIAgentScreen: undefined;
     // Add other routes here as needed
 };
 
