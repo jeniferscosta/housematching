@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Share, Alert, FlatList } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Share, Alert, FlatList, ActivityIndicator } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../../navigation/types';
 
-const PropertyDetailsScreen = ({ route, navigation }) => {
-    const { propertyId } = route.params;
-    const [property, setProperty] = useState(null);
+type PropertyDetailsProps = StackScreenProps<RootStackParamList, 'PropertyDetailsScreen'>;
+
+const PropertyDetails = ({ route, navigation }: PropertyDetailsProps) =>  {
+    const propertyId = route.params?.propertyId;
+    if (!propertyId) {
+        Alert.alert('Error', 'Property ID is missing');
+        navigation.goBack();
+        return null;
+    }
+    const [property, setProperty] = useState<{ title: string; description: string; price: string; contactInfo: string; images: string[]; location: { latitude: number; longitude: number } } | null>(null);
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
@@ -32,12 +41,16 @@ const PropertyDetailsScreen = ({ route, navigation }) => {
             setIsFavorite(true);
             Alert.alert('Success', 'Property added to favorites');
         } catch (error) {
-            Alert.alert('Error', error.message);
+            Alert.alert('Error', (error as Error).message);
         }
     };
 
     const shareProperty = async () => {
         try {
+            if (!property) {
+                Alert.alert('Error', 'Property details are not available');
+                return;
+            }
             const result = await Share.share({
                 message: `Check out this property: ${property.title}\n${property.description}\nPrice: ${property.price}\nContact: ${property.contactInfo}`,
             });
@@ -51,12 +64,12 @@ const PropertyDetailsScreen = ({ route, navigation }) => {
                 // Dismissed
             }
         } catch (error) {
-            Alert.alert('Error', error.message);
+            Alert.alert('Error', (error as Error).message);
         }
     };
 
     if (!property) {
-        return <Text>Loading...</Text>;
+        return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
     return (
@@ -174,4 +187,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PropertyDetailsScreen;
+export default PropertyDetails;

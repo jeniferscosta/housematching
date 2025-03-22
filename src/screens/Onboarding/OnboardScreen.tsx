@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../../types'; 
+import { RootStackParamList } from '../../navigation/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type OnboardingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'OnboardScreen'>;

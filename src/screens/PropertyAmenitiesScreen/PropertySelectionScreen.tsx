@@ -39,7 +39,11 @@ const PropertySelectionScreen = ({ navigation }: { navigation: NavigationProp<an
             // Navigate to the next screen
             navigation.navigate('NextScreen');
         } catch (error) {
-            Alert.alert('Error', error.message);
+            if (error instanceof Error) {
+                Alert.alert('Error', error.message);
+            } else {
+                Alert.alert('Error', 'An unknown error occurred');
+            }
         }
     };
 
@@ -55,11 +59,11 @@ const PropertySelectionScreen = ({ navigation }: { navigation: NavigationProp<an
     return (
         <View style={styles.container}>
             <View style={commonStyles.header}>
-                <TouchableOpacity style={commonStyles.backButton} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={commonStyles.backButtonImage} onPress={() => navigation.goBack()}>
                     <Image source={require('../../assets/icons/back.png')} style={commonStyles.backButtonImage} />
                 </TouchableOpacity>
                 <TouchableOpacity style={commonStyles.skipButton} onPress={() => navigation.navigate('NextScreen')}>
-                    <Image source={require('../../assets/icons/skip.png')} style={commonStyles.skipButtonImage} />
+                    <Image source={require('../../assets/icons/skip.png')} style={commonStyles.skipButton} />
                 </TouchableOpacity>
             </View>
             <Text style={commonStyles.title}>Select your preferable real estate type</Text>
@@ -72,7 +76,7 @@ const PropertySelectionScreen = ({ navigation }: { navigation: NavigationProp<an
                 columnWrapperStyle={commonStyles.row}
             />
             <TouchableOpacity style={commonStyles.nextButton} onPress={handleNext}>
-                <Image source={require('../../assets/icons/next.png')} style={commonStyles.nextButtonImage} />
+                <Image source={require('../../assets/icons/next.png')} style={commonStyles.nextButton} />
             </TouchableOpacity>
         </View>
     );

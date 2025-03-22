@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, ImageBackground, Touc
 import { NavigationProp } from '@react-navigation/native';
 import { getAuth, signInWithPhoneNumber, signInWithCredential, PhoneAuthProvider } from 'firebase/auth';
 import firebase from '../../../firebaseConfig';
-import commonStyles from '../../../utils/commonStyles';
+import commonStyles from '../../utils/commonStyles';
 
 const OTPInputScreen = ({ navigation, route }: { navigation: NavigationProp<any>, route: any }) => {
     const [otp, setOtp] = useState(['', '', '', '']);
@@ -75,19 +75,19 @@ const OTPInputScreen = ({ navigation, route }: { navigation: NavigationProp<any>
         <View style={commonStyles.container}>
             <ImageBackground source={require('../../assets/Login/FormOTP.png')} style={commonStyles.background} resizeMode="cover">
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Image source={require('../../assets/icons/back.png')} style={styles.backButtonImage} />
+                    <Image source={require('../../assets/icons/back.png')} style={commonStyles.backButtonImage} />
                 </TouchableOpacity>
                 <Text style={commonStyles.title}>Enter the code</Text>
                 <Text style={commonStyles.subtitle}>Enter the 4 digit code that we just sent to {email}</Text>
-                <View style={styles.otpContainer}>
+                <View style={commonStyles.otpContainer}>
                     {otp.map((digit, index) => (
-                        <View key={index} style={styles.otpBox}>
-                            <Image source={require('../../assets/icons/otp-box.png')} style={styles.otpImage} />
+                        <View key={index} style={commonStyles.otpBox}>
+                            <Image source={require('../../assets/icons/otp-box.png')} style={commonStyles.otpBox} />
                             {selectedInputIndex === index && (
-                                <Image source={require('../../assets/icons/otp-box-selected.png')} style={styles.selectedOtpImage} />
+                                <Image source={require('../../assets/icons/otp-box-selected.png')} style={commonStyles.selectedOtpImage} />
                             )}
                             <TextInput
-                                style={styles.otpInput}
+                                style={commonStyles.otpInput}
                                 value={digit}
                                 onChangeText={(value) => handleOtpChange(index, value)}
                                 onFocus={() => setSelectedInputIndex(index)}
@@ -113,40 +113,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 40,
         left: 20,
-    },
-    backButtonImage: {
-        width: 30,
-        height: 30,
-    },
-    otpContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginVertical: 20,
-    },
-    otpBox: {
-        position: 'relative',
-        width: 50,
-        height: 50,
-    },
-    otpImage: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-    },
-    selectedOtpImage: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        borderColor: '#1E90FF',
-        borderWidth: 2,
-    },
-    otpInput: {
-        width: '100%',
-        height: '100%',
-        textAlign: 'center',
-        fontSize: 18,
-        color: 'black',
-        backgroundColor: 'transparent',
     },
     resendCode: {
         color: '#1E90FF',

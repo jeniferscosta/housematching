@@ -55,14 +55,18 @@ const LocationConfigStep1 = ({ navigation }: { navigation: NavigationProp<any> }
                 throw new Error('Failed to save location');
             }
 
-            navigation.navigate('NextScreen', { locationInfo });
+            navigation.navigate('HomeScreen', { locationInfo });
         } catch (error) {
-            Alert.alert('Error', error.message);
+            if (error instanceof Error) {
+                Alert.alert('Error', error.message);
+            } else {
+                Alert.alert('Error', 'An unknown error occurred');
+            }
         }
     };
 
     const handleSkip = () => {
-        navigation.navigate('NextScreen', { locationInfo: '' });
+        navigation.navigate('HomeScreen', { locationInfo: '' });
     };
 
     return (

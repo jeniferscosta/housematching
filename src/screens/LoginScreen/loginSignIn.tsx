@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ImageBackground, Image, TextInput, Alert, View } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../../types'; 
-import commonStyles from '../../../utils/commonStyles';
+import { RootStackParamList } from '../../navigation/types';
+import commonStyles from '../../utils/commonStyles';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import firebase from '../../../firebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-const LoginDetailsMailPass = () => {
+const loginSignIn = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -41,18 +41,16 @@ const LoginDetailsMailPass = () => {
                 throw new Error('Failed to log in user');
             }
 
-            navigation.navigate("LocationConfigStep1");
+            navigation.navigate("LoginSocialScreen");
         } catch (error) {
             setErrorMessage((error as any).message);
         }
     };
 
-    /*Sign-in when the user has an account previously created*/
+    
     return (
         <View style={commonStyles.container}>
             <ImageBackground source={require('../../assets/Login/FormLoginEmpty.png')} style={commonStyles.background} resizeMode="cover" onError={(error) => console.log(error)}>
-                <TouchableOpacity style={commonStyles.skipButton} onPress={() => navigation.navigate("AccountSetupScreen")}>
-                </TouchableOpacity>
                 <TextInput
                     style={commonStyles.input}
                     placeholder="Email"
@@ -74,7 +72,7 @@ const LoginDetailsMailPass = () => {
                 {errorMessage ? (
                     <Text style={styles.errorText}>{errorMessage}</Text>
                 ) : null}
-                <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+                <TouchableOpacity onPress={() => navigation.navigate("LoginRegister")}>
                     <Text style={commonStyles.forgotPassword}>Forgot Password?</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[commonStyles.button, styles.nextButton]} onPress={handleLogin}>
@@ -89,7 +87,7 @@ const LoginDetailsMailPass = () => {
                     <Image source={require('../../assets/Login/FB.png')} style={styles.image} />
                     <Text style={commonStyles.buttonText}>FacebookAuthProvider={}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+                <TouchableOpacity onPress={() => navigation.navigate("LoginRegister")}>
                     <Text style={commonStyles.registerButton}>Don’t have an account? Register</Text>
                 </TouchableOpacity>
             </ImageBackground>
@@ -112,4 +110,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginDetailsMailPass;
+export default loginSignIn;

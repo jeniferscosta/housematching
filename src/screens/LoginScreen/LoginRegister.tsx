@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Ima
 import { NavigationProp } from '@react-navigation/native';
 import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
 import firebase from '../../../firebaseConfig';
-import commonStyles from '../../../utils/commonStyles';
+import commonStyles from '../../utils/commonStyles';
 
 const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
     const [fullName, setFullName] = useState('');
@@ -63,6 +63,13 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
+            <Text style={commonStyles.label}>Telephone</Text>
+            <TextInput
+                style={commonStyles.input}
+                value={telephone}
+                onChangeText={setTelephone}
+                keyboardType="phone-pad"
+            />
             <Text style={commonStyles.label}>Password</Text>
             <TextInput
                 style={commonStyles.input}
@@ -70,13 +77,6 @@ const LoginScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!isPasswordVisible}
-            />
-            <Text style={commonStyles.label}>Telephone</Text>
-            <TextInput
-                style={commonStyles.input}
-                value={telephone}
-                onChangeText={setTelephone}
-                keyboardType="phone-pad"
             />
             <TouchableOpacity onPress={() => navigation.navigate('TermsAndConditions')}>
                 <Text style={commonStyles.termsConditions}>Terms and Conditions</Text>

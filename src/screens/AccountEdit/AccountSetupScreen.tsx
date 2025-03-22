@@ -1,33 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ImageBackground, Image, ScrollView, TextInput, Button, Modal } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../../types';
+import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView, TextInput, Button, Modal } from 'react-native';
+import { ScreenProps } from '../../navigation/types';
+import * as ImagePicker from 'expo-image-picker';
 
-type AccountSetupScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountSetup'>;
-type AccountSetupScreenRouteProp = RouteProp<RootStackParamList, 'AccountSetup'> & {
-    params: {
-        email: string;
-        fullName?: string;
-    };
+type RouteParams = {
+    email?: string;
+    fullName?: string;
 };
 
-type AccountSetupScreenProps = {
-    navigation: AccountSetupScreenNavigationProp;
-    route: AccountSetupScreenRouteProp & {
-        params: {
-            email: string;
-            fullName?: string;
-        };
-    };
-};
-
-const AccountSetupScreen = ({ navigation, route }: AccountSetupScreenProps) => {
-    const { email: initialEmail } = route.params || {};
-    const [fullName, setFullName] = useState(route.params?.fullName || '');
+const AccountSetupScreen: React.FC<ScreenProps<'AccountSetupScreen'>> = ({ navigation, route }) => {
+    const params = (route.params ?? {}) as RouteParams;
+    const initialEmail = params?.email || '';
+    const [fullName, setFullName] = useState(params?.fullName || '');
     const [email, setEmail] = useState(initialEmail || '');
     const [telephone, setTelephone] = useState('');
-    const [profilePicture, setProfilePicture] = useState(null);
+    const [profilePicture, setProfilePicture] = useState<string | null>(null);
     const [isNextEnabled, setIsNextEnabled] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -40,7 +27,7 @@ const AccountSetupScreen = ({ navigation, route }: AccountSetupScreenProps) => {
     }, [fullName, email, telephone, profilePicture]);
 
     const handleProfilePictureSelection = () => {
-        launchImageLibrary({}, (response) => {
+        launchImageLibrary({}, (response: any) => {
             if (response.assets && response.assets.length > 0) {
                 setProfilePicture(response.assets[0].uri);
             }
@@ -77,7 +64,7 @@ const AccountSetupScreen = ({ navigation, route }: AccountSetupScreenProps) => {
 
     const handleFinish = () => {
         setIsModalVisible(false);
-        navigation.navigate('Home');
+        navigation.navigate('HomeScreen');
     };
 
     return (
@@ -178,3 +165,20 @@ const styles = StyleSheet.create({
 });
 
 export default AccountSetupScreen;
+async function launchImageLibrary(options: ImagePicker.ImagePickerOptions, callback: (response: any) => void) {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+        alert("You've refused to allow this app to access your photos!");
+        return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    if (!result.canceled) {
+        callback({ assets: [result] });
+    } else {
+        callback({ assets: [] });
+    }
+}
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../../types';
+import { RootStackParamList } from '../../navigation/types';
 import commonStyles from '../../../utils/commonStyles';
 
 const ProductTour2 = () => {
@@ -9,12 +9,15 @@ const ProductTour2 = () => {
 
     return (
         <View style={commonStyles.container}>
-            <ImageBackground source={require('../../assets/ProductTour/ProdTour1.png')} style={commonStyles.background} >
-                <TouchableOpacity style={commonStyles.skipButton} onPress={() => navigation.navigate("AccountSetupScreen")}>
+            <ImageBackground source={require('../../assets/ProductTour/ProdTour2.png')} style={commonStyles.background} >
+                <TouchableOpacity style={commonStyles.skipButton} onPress={() => navigation.navigate("LoginSocialScreen")}>
                     <Text style={commonStyles.skipButtonText}>Skip</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[commonStyles.button, styles.nextButton]} onPress={() => navigation.navigate("ProdTour3")}>
                     <Text style={commonStyles.buttonText}>Next</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[commonStyles.button, styles.nextButton]} onPress={() => navigation.navigate("ProdTour1")}>
+                    <Text style={commonStyles.buttonText}>Back</Text>
                 </TouchableOpacity>
             </ImageBackground>
         </View>

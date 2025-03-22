@@ -2,7 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, Button } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-const MapScreen = ({ route, navigation }) => {
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackParamList = {
+	MapScreen: { locationInfo: string };
+	NextScreen: { locationInfo: string };
+};
+
+type MapScreenRouteProp = RouteProp<RootStackParamList, 'MapScreen'>;
+type MapScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MapScreen'>;
+
+const MapScreen = ({ route, navigation }: { route: MapScreenRouteProp; navigation: MapScreenNavigationProp }) => {
 	const { locationInfo } = route.params;
 	const [modalVisible, setModalVisible] = useState(false);
 
@@ -15,12 +26,10 @@ const MapScreen = ({ route, navigation }) => {
 
 	useEffect(() => {
 		if (locationInfo.includes('Latitude')) {
-			const [lat, lon] = locationInfo.match(/-?\d+(\.\d+)?/g).map(Number);
-			setLocation({
-				...location,
-				latitude: lat,
-				longitude: lon,
-			});
+			const match = locationInfo.match(/-?\d+(\.\d+)?/g);
+			if (match) {
+				const [lat, lon] = match.map(Number);
+			}
 		}
 	}, [locationInfo]);
 
@@ -32,6 +41,14 @@ const MapScreen = ({ route, navigation }) => {
         navigation.navigate('NextScreen', { locationInfo: '' });
     };
 
+	function handleMarkerDragEnd(event: any): void {
+		const { latitude, longitude } = event.nativeEvent.coordinate;
+		setLocation((prevLocation) => ({
+			...prevLocation,
+			latitude,
+			longitude,
+		}));
+	}
 	return (
 		<View style={styles.container}>
             <MapView style={styles.map} region={location}>
@@ -39,7 +56,7 @@ const MapScreen = ({ route, navigation }) => {
                     coordinate={{ latitude: location.latitude, longitude: location.longitude }}
                     draggable
                     onDragEnd={handleMarkerDragEnd}
-                    onPress={() => setModalVisible(true)}}
+					onPress={() => setModalVisible(true)}
 				/>
 			</MapView>
 			<Modal

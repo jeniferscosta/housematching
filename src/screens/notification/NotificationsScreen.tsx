@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
 import commonStyles from '../../utils/commonStyles';
 
-const NotificationsScreen = ({ navigation }) => {
+import { NavigationProp } from '@react-navigation/native';
+
+const NotificationsScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const [activeTab, setActiveTab] = useState('notifications');
   const [notifications, setNotifications] = useState([
     {

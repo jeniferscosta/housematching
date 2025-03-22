@@ -47,7 +47,7 @@ const commonStyles = StyleSheet.create({
         marginTop: 20,
     },
     registerButton: {
-        marginTop: 20,
+        marginBottom: 20,
     },
     forgotPassword: {
         color: '#1F4C6B',
@@ -109,6 +109,51 @@ const commonStyles = StyleSheet.create({
     },
     finish: {
         marginTop: 20,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontFamily: 'Lato',
+    },
+    skipButtonText: {
+        color: '#1F4C6B',
+        fontSize: 16,
+        fontFamily: 'Lato',
+    },
+    backButtonImage: {
+        width: 30,
+        height: 30,
+    },
+    otpContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 20,
+    },
+    otpBox: {
+        position: 'relative',
+        width: 50,
+        height: 50,
+    },
+    otpImage: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+    },
+    selectedOtpImage: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        borderColor: '#1E90FF',
+        borderWidth: 2,
+    },
+    otpInput: {
+        width: '100%',
+        height: '100%',
+        textAlign: 'center',
+        fontSize: 18,
+        color: 'black',
+        backgroundColor: 'transparent',
+    },
 });
 
 export default commonStyles;
